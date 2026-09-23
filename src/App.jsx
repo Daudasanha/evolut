@@ -1,22 +1,26 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+
+import Layout from './components/layout/Layout'
+
+import Dashboard from './pages/Dashboard/Dashboard'
+import Alimentacao from './pages/Alimentacao/Alimentacao'
+import Agua from './pages/Agua/Agua'
+import Treino from './pages/Treino/Treino'
+import Evolucao from './pages/Evolucao/Evolucao'
+
 function App() {
   return (
-    <main className="min-h-screen bg-slate-950 text-white flex items-center justify-center">
-      <div className="text-center">
-        <p className="text-sm uppercase tracking-[0.3em] text-slate-400">
-          EVOLUT
-        </p>
-
-        <h1 className="mt-4 text-5xl font-bold">
-          Sua rotina.
-          <br />
-          Sua evolução.
-        </h1>
-
-        <p className="mt-4 text-slate-400">
-          Alimentação, treino, hábitos e evolução em um só lugar.
-        </p>
-      </div>
-    </main>
+    <BrowserRouter>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/alimentacao" element={<Alimentacao />} />
+          <Route path="/agua" element={<Agua />} />
+          <Route path="/treino" element={<Treino />} />
+          <Route path="/evolucao" element={<Evolucao />} />
+        </Routes>
+      </Layout>
+    </BrowserRouter>
   )
 }
 
