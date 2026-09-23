@@ -1,43 +1,42 @@
-import { NavLink } from 'react-router-dom'
+﻿import { NavLink } from 'react-router-dom'
 
 function Sidebar() {
   const links = [
     {
       to: '/',
       label: 'Dashboard',
-      icon: '🏠',
+      sigla: 'D',
     },
     {
       to: '/alimentacao',
       label: 'Alimentação',
-      icon: '🍽️',
+      sigla: 'A',
     },
     {
       to: '/agua',
       label: 'Água',
-      icon: '💧',
+      sigla: 'H',
     },
     {
       to: '/treino',
       label: 'Treino',
-      icon: '🏋️',
+      sigla: 'T',
     },
     {
       to: '/evolucao',
       label: 'Evolução',
-      icon: '📈',
+      sigla: 'E',
     },
   ]
 
   return (
-    <aside className="w-64 min-h-screen bg-slate-900 border-r border-slate-800 p-6">
-      
+    <aside className="min-h-screen w-64 border-r border-slate-800 bg-slate-900 p-6">
       <div className="mb-10">
         <h1 className="text-2xl font-bold tracking-tight">
           EVOLUT
         </h1>
 
-        <p className="text-xs text-slate-400 mt-1">
+        <p className="mt-1 text-xs text-slate-400">
           Sua rotina. Sua evolução.
         </p>
       </div>
@@ -51,17 +50,21 @@ function Sidebar() {
             className={({ isActive }) =>
               `flex items-center gap-3 rounded-lg px-4 py-3 text-sm transition ${
                 isActive
-                  ? 'bg-slate-800 text-white font-medium'
+                  ? 'bg-slate-800 font-medium text-white'
                   : 'text-slate-400 hover:bg-slate-800 hover:text-white'
               }`
             }
           >
-            <span>{link.icon}</span>
-            <span>{link.label}</span>
+            <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-slate-950 text-xs font-bold text-slate-400">
+              {link.sigla}
+            </span>
+
+            <span>
+              {link.label}
+            </span>
           </NavLink>
         ))}
       </nav>
-
     </aside>
   )
 }
