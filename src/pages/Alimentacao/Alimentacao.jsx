@@ -1,5 +1,7 @@
 ﻿import { useEffect, useState } from 'react'
 
+import { obterDataLocal } from '../../lib/data'
+
 import {
   refeicoes,
   resumoNutricional,
@@ -7,7 +9,7 @@ import {
 
 function Alimentacao() {
   const [refeicaoAberta, setRefeicaoAberta] = useState(null)
-  const hoje = new Date().toISOString().split('T')[0]
+  const hoje = obterDataLocal()
   const chaveStorage = `evolut-refeicoes-${hoje}`
 
   const [refeicoesRealizadas, setRefeicoesRealizadas] = useState(() => {
@@ -51,6 +53,10 @@ function Alimentacao() {
 
   const totalRefeicoes = refeicoes.length
   const totalRealizadas = refeicoesRealizadas.length
+
+  const caloriasRealizadas = refeicoes
+    .filter((refeicao) => refeicoesRealizadas.includes(refeicao.id))
+    .reduce((total, refeicao) => total + refeicao.calorias, 0)
 
   const progresso =
     totalRefeicoes === 0
@@ -106,7 +112,14 @@ function Alimentacao() {
             </p>
 
             <p className="mt-1 text-xl font-semibold">
-              {resumoNutricional.calorias} kcal
+              {caloriasRealizadas}
+              <span className="text-sm font-normal text-slate-500">
+                {' '}/ {resumoNutricional.calorias} kcal
+              </span>
+            </p>
+
+            <p className="mt-1 text-xs text-slate-500">
+              realizadas / planejadas
             </p>
           </div>
 
@@ -303,6 +316,9 @@ function Alimentacao() {
 }
 
 export default Alimentacao
+
+
+
 
 
 
