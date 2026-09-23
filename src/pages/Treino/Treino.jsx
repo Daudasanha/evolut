@@ -230,7 +230,7 @@ function Treino() {
         })}
       </div>
 
-      <div className="mt-6 rounded-2xl border border-slate-800 bg-slate-900 p-6">
+      <div className="mt-6 rounded-2xl border border-slate-800 bg-slate-900 p-4 sm:p-6">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <p className="text-sm text-slate-400">
@@ -293,7 +293,7 @@ function Treino() {
                     : 'border-slate-800'
                 }`}
               >
-                <div className="flex flex-wrap items-center justify-between gap-4 p-5">
+                <div className="flex flex-wrap items-center justify-between gap-3 p-4 sm:gap-4 sm:p-5">
                   <div className="flex items-center gap-4">
                     <button
                       type="button"
@@ -346,10 +346,10 @@ function Treino() {
                 </div>
 
                 {aberto && (
-                  <div className="border-t border-slate-800 p-5">
-                    <div className="overflow-x-auto">
-                      <div className="min-w-[520px]">
-                        <div className="grid grid-cols-[80px_1fr_1fr] gap-3 px-2 text-xs font-medium uppercase tracking-wide text-slate-500">
+                  <div className="border-t border-slate-800 p-4 sm:p-5">
+                    <div className="w-full overflow-hidden">
+                      <div className="w-full">
+                        <div className="grid grid-cols-[48px_minmax(0,1fr)_minmax(0,1fr)] gap-2 px-1 text-xs font-medium uppercase sm:grid-cols-[80px_1fr_1fr] sm:gap-3 sm:px-2 tracking-wide text-slate-500">
                           <span>Série</span>
                           <span>Carga (kg)</span>
                           <span>Repetições</span>
@@ -366,7 +366,7 @@ function Treino() {
                               return (
                                 <div
                                   key={numeroSerie}
-                                  className="grid grid-cols-[80px_1fr_1fr] items-center gap-3"
+                                  className="grid grid-cols-[48px_minmax(0,1fr)_minmax(0,1fr)] items-center gap-2 sm:grid-cols-[80px_1fr_1fr] sm:gap-3"
                                 >
                                   <span className="px-2 text-sm font-medium text-slate-300">
                                     {numeroSerie}ª
@@ -462,3 +462,5 @@ function Treino() {
 }
 
 export default Treino
+
+

@@ -1,4 +1,5 @@
-﻿import { refeicoes, resumoNutricional } from '../../data/planoAlimentar'
+﻿import { Link } from 'react-router-dom'
+import { refeicoes, resumoNutricional } from '../../data/planoAlimentar'
 import { treinos } from '../../data/planoTreino'
 import { obterTreinoDoDia } from '../../data/agendaTreino'
 import { obterDataLocal } from '../../lib/data'
@@ -109,12 +110,14 @@ function Dashboard() {
       valor: `${progressoAlimentacao}%`,
       detalhe: `${caloriasRealizadas} / ${resumoNutricional.calorias} kcal`,
       barra: progressoAlimentacao,
+      link: '/alimentacao',
     },
     {
       titulo: 'Água',
       valor: `${progressoAgua}%`,
       detalhe: `${(agua / 1000).toFixed(2)} / 3.00 L`,
       barra: progressoAgua,
+      link: '/agua',
     },
     {
       titulo: 'Treino',
@@ -139,32 +142,34 @@ function Dashboard() {
           ? 'Último registro'
           : 'Sem registros',
       barra: null,
+      link: '/evolucao',
     },
   ]
 
   return (
     <div>
       <div>
-        <h1 className="text-3xl font-bold">
+        <h1 className="text-2xl font-bold sm:text-3xl">
           Dashboard
         </h1>
 
-        <p className="mt-2 text-slate-400">
+        <p className="mt-1 text-sm text-slate-400 sm:mt-2 sm:text-base">
           Visão geral do seu progresso de hoje.
         </p>
       </div>
 
-      <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <div className="mt-6 grid grid-cols-2 gap-3 sm:mt-8 sm:gap-4 xl:grid-cols-4">
         {cards.map((card) => (
-          <div
+          <Link
             key={card.titulo}
-            className="rounded-2xl border border-slate-800 bg-slate-900 p-5"
+            to={card.link}
+            className="group rounded-2xl border border-slate-800 bg-slate-900 p-4 sm:p-5 transition hover:-translate-y-1 hover:border-slate-700 hover:bg-slate-800/70"
           >
             <p className="text-sm text-slate-400">
               {card.titulo}
             </p>
 
-            <p className="mt-2 text-2xl font-bold">
+            <p className="mt-2 text-xl font-bold sm:text-2xl">
               {card.valor}
             </p>
 
@@ -180,15 +185,27 @@ function Dashboard() {
                 />
               </div>
             )}
-          </div>
+            <p className="mt-4 text-xs font-medium text-slate-600 transition group-hover:text-slate-400">
+              Ver detalhes →
+            </p>
+          </Link>
         ))}
       </div>
 
-      <div className="mt-8 grid gap-6 lg:grid-cols-2">
-        <div className="rounded-2xl border border-slate-800 bg-slate-900 p-6">
-          <p className="text-sm text-slate-400">
-            Próxima refeição
-          </p>
+      <div className="mt-6 grid gap-4 sm:mt-8 sm:gap-6 lg:grid-cols-2">
+        <Link
+          to="/alimentacao"
+          className="group rounded-2xl border border-slate-800 bg-slate-900 p-6 transition hover:border-slate-700 hover:bg-slate-800/50"
+        >
+          <div className="flex items-center justify-between gap-4">
+            <p className="text-sm text-slate-400">
+              Próxima refeição
+            </p>
+
+            <span className="text-sm text-slate-600 transition group-hover:text-slate-400">
+              Abrir →
+            </span>
+          </div>
 
           {proximaRefeicao ? (
             <>
@@ -196,7 +213,7 @@ function Dashboard() {
                 {proximaRefeicao.nome}
               </h2>
 
-              <p className="mt-2 text-slate-400">
+              <p className="mt-1 text-sm text-slate-400 sm:mt-2 sm:text-base">
                 {proximaRefeicao.horario}
                 {' • '}
                 {proximaRefeicao.calorias} kcal
@@ -208,17 +225,26 @@ function Dashboard() {
                 Plano concluído
               </h2>
 
-              <p className="mt-2 text-slate-400">
+              <p className="mt-1 text-sm text-slate-400 sm:mt-2 sm:text-base">
                 Todas as refeições foram realizadas hoje.
               </p>
             </>
           )}
-        </div>
+        </Link>
 
-        <div className="rounded-2xl border border-slate-800 bg-slate-900 p-6">
-          <p className="text-sm text-slate-400">
-            Treino de hoje
-          </p>
+        <Link
+          to="/treino"
+          className="group rounded-2xl border border-slate-800 bg-slate-900 p-6 transition hover:border-slate-700 hover:bg-slate-800/50"
+        >
+          <div className="flex items-center justify-between gap-4">
+            <p className="text-sm text-slate-400">
+              Treino de hoje
+            </p>
+
+            <span className="text-sm text-slate-600 transition group-hover:text-slate-400">
+              Abrir →
+            </span>
+          </div>
 
           {dadosTreinoHoje ? (
             <>
@@ -228,7 +254,7 @@ function Dashboard() {
                     {dadosTreinoHoje.nome}
                   </h2>
 
-                  <p className="mt-2 text-slate-400">
+                  <p className="mt-1 text-sm text-slate-400 sm:mt-2 sm:text-base">
                     {dadosTreinoHoje.descricao}
                   </p>
                 </div>
@@ -259,15 +285,18 @@ function Dashboard() {
                 Dia de descanso
               </h2>
 
-              <p className="mt-2 text-slate-400">
+              <p className="mt-1 text-sm text-slate-400 sm:mt-2 sm:text-base">
                 Nenhum treino programado para hoje.
               </p>
             </>
           )}
-        </div>
+        </Link>
       </div>
     </div>
   )
 }
 
 export default Dashboard
+
+
+
