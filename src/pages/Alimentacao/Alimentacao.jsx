@@ -7,6 +7,7 @@ import {
 
 function Alimentacao() {
   const [refeicaoAberta, setRefeicaoAberta] = useState(null)
+  const [refeicoesRealizadas, setRefeicoesRealizadas] = useState([])
 
   function alternarRefeicao(id) {
     if (refeicaoAberta === id) {
@@ -16,6 +17,27 @@ function Alimentacao() {
 
     setRefeicaoAberta(id)
   }
+
+  function alternarRefeicaoRealizada(id) {
+    const jaFoiRealizada = refeicoesRealizadas.includes(id)
+
+    if (jaFoiRealizada) {
+      setRefeicoesRealizadas(
+        refeicoesRealizadas.filter((refeicaoId) => refeicaoId !== id)
+      )
+      return
+    }
+
+    setRefeicoesRealizadas([...refeicoesRealizadas, id])
+  }
+
+  const totalRefeicoes = refeicoes.length
+  const totalRealizadas = refeicoesRealizadas.length
+
+  const progresso =
+    totalRefeicoes === 0
+      ? 0
+      : Math.round((totalRealizadas / totalRefeicoes) * 100)
 
   return (
     <div>
@@ -30,15 +52,41 @@ function Alimentacao() {
       </div>
 
       <div className="mt-8 rounded-2xl border border-slate-800 bg-slate-900 p-6">
-        <h2 className="text-lg font-semibold">
-          Resumo diário
-        </h2>
+        <div className="flex items-center justify-between gap-4">
+          <h2 className="text-lg font-semibold">
+            Resumo diário
+          </h2>
+
+          <span className="text-sm text-slate-400">
+            {totalRealizadas} de {totalRefeicoes} refeições realizadas
+          </span>
+        </div>
+
+        <div className="mt-5">
+          <div className="mb-2 flex items-center justify-between">
+            <span className="text-sm text-slate-400">
+              Progresso do dia
+            </span>
+
+            <span className="text-sm font-medium text-slate-300">
+              {progresso}%
+            </span>
+          </div>
+
+          <div className="h-2 overflow-hidden rounded-full bg-slate-800">
+            <div
+              className="h-full rounded-full bg-emerald-500 transition-all duration-300"
+              style={{ width: `${progresso}%` }}
+            />
+          </div>
+        </div>
 
         <div className="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
           <div>
             <p className="text-sm text-slate-400">
               Calorias
             </p>
+
             <p className="mt-1 text-xl font-semibold">
               {resumoNutricional.calorias} kcal
             </p>
@@ -48,6 +96,7 @@ function Alimentacao() {
             <p className="text-sm text-slate-400">
               Carboidratos
             </p>
+
             <p className="mt-1 text-xl font-semibold">
               {resumoNutricional.carboidratos} g
             </p>
@@ -57,6 +106,7 @@ function Alimentacao() {
             <p className="text-sm text-slate-400">
               Proteínas
             </p>
+
             <p className="mt-1 text-xl font-semibold">
               {resumoNutricional.proteinas} g
             </p>
@@ -66,6 +116,7 @@ function Alimentacao() {
             <p className="text-sm text-slate-400">
               Gorduras
             </p>
+
             <p className="mt-1 text-xl font-semibold">
               {resumoNutricional.gorduras} g
             </p>
@@ -82,23 +133,59 @@ function Alimentacao() {
           {refeicoes.map((refeicao) => {
             const estaAberta = refeicaoAberta === refeicao.id
 
+            const estaRealizada =
+              refeicoesRealizadas.includes(refeicao.id)
+
             return (
               <div
                 key={refeicao.id}
-                className="rounded-2xl border border-slate-800 bg-slate-900 p-5"
+                className={`rounded-2xl border p-5 transition ${
+                  estaRealizada
+                    ? 'border-emerald-500/40 bg-emerald-500/5'
+                    : 'border-slate-800 bg-slate-900'
+                }`}
               >
-                <div className="flex items-center justify-between gap-6">
-                  <div>
-                    <h3 className="font-semibold">
-                      {refeicao.nome}
-                    </h3>
+                <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                  <div className="flex items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        alternarRefeicaoRealizada(refeicao.id)
+                      }
+                      className={`flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center rounded-full border text-sm font-bold transition ${
+                        estaRealizada
+                          ? 'border-emerald-500 bg-emerald-500 text-slate-950'
+                          : 'border-slate-600 text-transparent hover:border-emerald-500'
+                      }`}
+                      aria-label={
+                        estaRealizada
+                          ? `Desmarcar ${refeicao.nome}`
+                          : `Marcar ${refeicao.nome} como realizada`
+                      }
+                    >
+                      ✓
+                    </button>
 
-                    <p className="mt-1 text-sm text-slate-400">
-                      {refeicao.horario}
-                    </p>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <h3 className="font-semibold">
+                          {refeicao.nome}
+                        </h3>
+
+                        {estaRealizada && (
+                          <span className="rounded-full bg-emerald-500/10 px-2 py-1 text-xs font-medium text-emerald-400">
+                            Realizada
+                          </span>
+                        )}
+                      </div>
+
+                      <p className="mt-1 text-sm text-slate-400">
+                        {refeicao.horario}
+                      </p>
+                    </div>
                   </div>
 
-                  <div className="flex items-center gap-6">
+                  <div className="flex items-center gap-4 lg:gap-6">
                     <span className="text-sm font-medium text-slate-300">
                       {refeicao.calorias} kcal
                     </span>
