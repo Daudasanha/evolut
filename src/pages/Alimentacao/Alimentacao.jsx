@@ -1,4 +1,4 @@
-﻿import { useState } from 'react'
+﻿import { useEffect, useState } from 'react'
 
 import {
   refeicoes,
@@ -7,7 +7,25 @@ import {
 
 function Alimentacao() {
   const [refeicaoAberta, setRefeicaoAberta] = useState(null)
-  const [refeicoesRealizadas, setRefeicoesRealizadas] = useState([])
+  const hoje = new Date().toISOString().split('T')[0]
+  const chaveStorage = `evolut-refeicoes-${hoje}`
+
+  const [refeicoesRealizadas, setRefeicoesRealizadas] = useState(() => {
+    const dadosSalvos = localStorage.getItem(chaveStorage)
+
+    if (!dadosSalvos) {
+      return []
+    }
+
+    return JSON.parse(dadosSalvos)
+  })
+
+  useEffect(() => {
+    localStorage.setItem(
+      chaveStorage,
+      JSON.stringify(refeicoesRealizadas)
+    )
+  }, [refeicoesRealizadas, chaveStorage])
 
   function alternarRefeicao(id) {
     if (refeicaoAberta === id) {
@@ -285,3 +303,7 @@ function Alimentacao() {
 }
 
 export default Alimentacao
+
+
+
+
